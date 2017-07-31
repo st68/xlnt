@@ -288,15 +288,33 @@ void xlsx_producer::write_property(const std::string &name, const variant &value
             write_start_element(constants::ns("vt"), "vector");
 
             auto vector = value.get<std::vector<variant>>();
-            std::unordered_set<variant::type> types;
+
+			//
+			// TODO:
+			// there is a name conflict compiling with cygwin c++
+			//   causes unordered_set<variant::type> to fail miserably
+			//   suspect at least one enumeration is #define elsewhere
+			// rather than fighting, changed
+			//   from vector<varient::type>
+			//   to vector<int>
+			// better solution would be to find and fix conflict
+			//   but will probably mean renaming enumeration value(s)
+			//   and touching many, many files
+			//
+            std::unordered_set<int> types;
 
             for (const auto &element : vector)
             {
-                types.insert(element.value_type());
+                types.insert((int)element.value_type());
             }
 
             const auto is_mixed = types.size() > 1;
-            const auto vector_type = !is_mixed ? to_string(*types.begin()) : "variant";
+            const auto vector_type = is_mixed
+                ?
+                "variant"
+                :
+                to_string( (variant::type)(*types.begin()) )
+                ;
 
             write_attribute("size", vector.size());
             write_attribute("baseType", vector_type);
@@ -2261,6 +2279,9 @@ void xlsx_producer::write_worksheet(const relationship &rel)
             case cell::type::formula_string:
                 write_attribute("t", "str");
                 break;
+
+            default:
+                break;
             }
 
             //write_attribute("cm", "");
@@ -2319,6 +2340,9 @@ void xlsx_producer::write_worksheet(const relationship &rel)
 
             case cell::type::formula_string:
                 write_element(xmlns, "v", cell.value<std::string>());
+                break;
+
+            default:
                 break;
             }
 

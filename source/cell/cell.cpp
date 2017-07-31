@@ -678,6 +678,8 @@ std::string cell::to_string() const
         return nf.format(value<std::string>());
     case cell::type::boolean:
         return value<long double>() == 0.L ? "FALSE" : "TRUE";
+    case cell::type::date:
+        return "DD-MMM-YY";
     }
 
     return "";
