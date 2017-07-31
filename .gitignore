@@ -13,3 +13,16 @@ node_modules/
 .DS_Store
 __pycache__/
 Win32/
+
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+cmake_uninstall.cmake
+cygxlnt-0.9.dll
+libxlnt.dll.a
+third-party/libstudxml/CMakeFiles/
+third-party/libstudxml/Makefile
+third-party/libstudxml/cmake_install.cmake
+xlnt.pc
+
