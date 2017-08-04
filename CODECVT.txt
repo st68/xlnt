@@ -1,0 +1,6 @@
+
+The use of <codecvt> is deprecated:
+  http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0618r0.html
+
+This will preclude use of this source code in many distributions.
+
